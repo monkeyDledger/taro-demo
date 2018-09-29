@@ -2,9 +2,11 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 
 const app = express();
-const distPath = path.resolve(__dirname, 'dist');
+const router = express.Router();
+const distPath = path.resolve(__dirname, '../dist');
 const port = process.env.PORT || 3100;
 
 app.use(express.static(distPath));
@@ -23,6 +25,28 @@ app.all("*", function(req, res, next) {
   }
   next();
 });
+
+// 同步读取 router 目录中的js文件, 根据命名规则, 自动注册路由
+const routePath = path.join(__dirname, '/router/');
+fs.readdirSync(routePath).forEach(file => {
+  if (/\.js$/i.test(file) === false) {
+    return;
+  }
+
+  let route;
+    route =
+      "/" +
+      file
+        .replace(/\.js$/i, "")
+        .replace(/_/g, "/")
+        .replace(/[A-Z]/g, a => {
+          return "/" + a.toLowerCase();
+        });
+
+  router.post(route, require(path.resolve(routePath, file)));
+});
+
+app.use('/api', router);
 
 app.listen(port, () => {
   console.info('server is listening at port', port);

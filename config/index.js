@@ -1,7 +1,7 @@
 const config = {
   projectName: 'uh-pay',
   date: '2018-9-28',
-  designWidth: 750,
+  designWidth: 375,
   deviceRatio: {
     '640': 2.34 / 2,
     '750': 1,
