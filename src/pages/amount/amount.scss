@@ -1,0 +1,30 @@
+.avatar {
+  margin: 25px auto 0;
+}
+
+.role-name {
+  width: 100%;
+  font-size: 16px;
+  color: #666666;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.amount-main {
+  margin: 18px;
+  margin-top: 30px;
+}
+
+.protocol {
+  display: flex;
+  margin-top: 16px;
+  line-height: 16px;
+  font-size: 12px;
+
+  .protocol-text {
+    color: #666666;
+  }
+  .protocol-link {
+    color: #003E00;
+  }
+}

@@ -5,3 +5,39 @@
   color: #666;
   text-align: center;
 }
+
+.slogan {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #666666;
+}
+
+.roles {
+  width: 100%;
+  margin-top: 70px;
+  text-align: center;
+}
+
+.role-wrapper {
+  width: 180px;
+  margin: 26px auto 0;
+  display: flex;
+
+  .role-item {
+    width: 67px;
+    &.left {
+      margin-right: 46px;
+    }
+    .role-text {
+      font-size: 16px;
+      color: #666666;
+      text-align: center;
+    }
+  }
+}
+
+.select-text {
+  font-size: 16px;
+  color: #666;
+}

@@ -7,10 +7,12 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/index/index'
+      'pages/index/index',
+      'pages/amount/amount',
+      'pages/apply/apply',
     ],
     window: {
-      backgroundTextStyle: 'light',
+      backgroundTextStyle: 'black',
       navigationBarBackgroundColor: '#f5f5f5',
       navigationBarTitleText: '云家付',
       navigationBarTextStyle: 'black'
