@@ -4,7 +4,6 @@ import Header from '../../components/header/header'
 import './apply.scss'
 
 import arrowRight from '../../images/form/gray_right_default@2x.png'
-import { stat } from 'fs';
 
 export default class Apply extends Component {
 

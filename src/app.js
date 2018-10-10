@@ -10,6 +10,15 @@ class App extends Component {
       'pages/index/index',
       'pages/amount/amount',
       'pages/apply/apply',
+      'pages/status/status',
+      'pages/main/list/list',
+      'pages/main/limit/limit',
+      'pages/main/detail/detail',
+      'pages/main/blacklist/blacklist',
+      'pages/transaction/transaction',
+      'pages/parents/parents',
+      'pages/child/index/index',
+      'pages/child/plan/plan'
     ],
     window: {
       backgroundTextStyle: 'black',

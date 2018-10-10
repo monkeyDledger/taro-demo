@@ -33,7 +33,7 @@ export default class Amount extends Component {
 
   handleNext() {
     Taro.navigateTo({
-      url: ''
+      url: '../status/status'
     });
   }
 
