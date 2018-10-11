@@ -4,11 +4,22 @@
  * @param {*} req
  * @param {*} res
  */
-
- var insertTest = require('../db/operatedb');
+var User = require('../db/model/user');
+ var applycardTest = require('../db/operatedb');
 module.exports = (req, res) => {
-  insertTest.function();
-  console.log(req.body);
-  res.send('test success');
+
+  var mainUser = new User({
+    user_id : req.body.mainId
+  });
+
+  var minorUser = new User ({
+    user_id :req.body.minorId,
+    name :req.body.minorName,
+    phone : req.body.phone,
+    role :req.body.role
+  });
+
+  applycardTest.function(mainUser,minorUser,req.body.credit_line);
+  res.send('添加云家付成功！');
 
 }
