@@ -1,0 +1,25 @@
+.game {
+  display: flex;
+  height: 50px;
+  margin-bottom: 12px;
+  align-items: center;
+
+  .game-logo {
+    width: 56Px;
+    height: 32Px;
+    margin-right: 20px;
+  }
+
+  .game-name {
+    font-size: 14px;
+    color: #333333;
+    line-height: 16px;
+    flex-grow: 1;
+  }
+  .game-checkbox {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+    margin-left: 6px;
+  }
+}

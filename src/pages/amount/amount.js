@@ -61,7 +61,7 @@ export default class Amount extends Component {
                   onChange={this.handleRoleChange}
                 />
               </View>
-              <Text className="input-label">元/月</Text>
+              <Text className="input-label right">元/月</Text>
             </View>
           </View>
           <View className="protocol">

@@ -15,6 +15,7 @@ class App extends Component {
       'pages/main/limit/limit',
       'pages/main/detail/detail',
       'pages/main/blacklist/blacklist',
+      'pages/main/blackmanage/blackmanage',
       'pages/transaction/transaction',
       'pages/parents/parents',
       'pages/child/index/index',

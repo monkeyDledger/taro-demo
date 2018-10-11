@@ -29,37 +29,51 @@ export default class List extends Component {
           total: 180,
           quota: 100
         },
+        {
+          id: '3',
+          name: '*婷',
+          role: '闺女',
+          applying: true,
+        }
       ]
     };
   }
 
   handleAddNewCard() {
     Taro.navigateTo({
-      url: '../../index/index'
+      url: '/'
     });
   }
 
-  handleNext() {}
+  onItemClick(item) {
+    const param = 'role=' + item.role + '&cardId=' + item.id + '&name=' + item.name;
+    Taro.navigateTo({
+      url: '../detail/detail?' + param,
+    })
+  }
 
   render() {
     const { list } = this.state;
+    const route = this.$router;
     const cards = list.map(item => {
       return (
         <Card
           key={item.id}
           name={item.name}
           role={item.role}
+          applying={item.applying}
           total={item.total}
           quota={item.quota}
+          onCardClick={this.onItemClick.bind(this, item)}
         />
       );
     });
     return (
       <View className="container">
-        <Header text={this.config.navigationBarTitleText} />
-        <View className="main">
+        <Header text={this.config.navigationBarTitleText} route={route} />
+        <View className="list-main">
           <View className="list-top">
-            <Text className="title">附属卡</Text>
+            <Text className="list-title">附属卡</Text>
             <Image
               className="add-icon"
               src={addIcon}

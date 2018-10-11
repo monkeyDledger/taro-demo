@@ -1,45 +1,6 @@
 .main {
   margin: 20px auto;
 
-  .card-container {
-    width: 276px;
-    height: 173px;
-    margin: 0 auto;
-    background-image: linear-gradient(-180deg, #FE7F75 31%, #FFE8A4 100%);
-    box-shadow: inset 0 2px 2px 0 #FFFFFF;
-    border-radius: 15px;
-    position: relative;
-
-    .card-img {
-      width: 100%;
-      height: 100%;
-    }
-    .card-text {
-      font-size: 12px;
-      color: #FFFFFF;
-      letter-spacing: 0.6px;
-      line-height: 12px;
-      position: absolute;
-      z-index: 9;
-
-      &.bank {
-        top: 15px;
-        left: 17px;
-      }
-
-      &.status {
-        top: 50%;
-        left: 50%;
-        transform: translate(-23px, -6px)
-      }
-
-      &.type {
-        left: 17px;
-        bottom: 15px;
-      }
-    }
-  }
-
   .tips {
     width: 100%;
     display: block;

@@ -8,7 +8,15 @@ import moreImg from '../../images/nav_bar/more_black@2x.png'
 export default class Header extends Component {
 
   handleNavBack() {
-    Taro.navigateBack();
+    const {route} = this.props;
+    console.log(route);
+    if (route && route.url.indexOf('main/list') > -1) {
+      Taro.redirectTo({
+        url: '/'
+      });
+    } else {
+      Taro.navigateBack();
+    }
   }
 
   render() {
@@ -19,7 +27,7 @@ export default class Header extends Component {
       <View className='wrapper'>
         <Image
           className='nav-icon back'
-          onClick={this.handleNavBack}
+          onClick={this.handleNavBack.bind(this)}
           src={backImg}
         >
         </Image>

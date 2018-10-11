@@ -1,4 +1,25 @@
 .main {
   width: 340px;
   margin: 10px auto;
+
+  .black-top {
+    height: 16px;
+    width: 100%;
+    margin-bottom: 16px;
+
+    .black-top-title {
+      float: left;
+      font-size: 14px;
+      color: #999999;
+      letter-spacing: 0.6px;
+      line-height: 16px;
+    }
+    .black-top-btn {
+      float: right;
+      font-size: 14px;
+      color: #4A90E2;
+      letter-spacing: 0.6px;
+      line-height: 16px;
+    }
+  }
 }

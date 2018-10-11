@@ -9,10 +9,8 @@
   margin-bottom: 16px;
 
   .left-icon {
-    width: 36px;
-    height: 36px;
-    opacity: 0.09;
-    background: #6BAE78;
+    width: 46px;
+    height: 46px;
     margin-left: 18px;
     margin-right: 12px;
   }
@@ -21,7 +19,7 @@
     font-size: 14px;
     color: #333333;
     letter-spacing: 0.6px;
-    line-height: 14px;
+    line-height: 16px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -39,10 +37,6 @@
       letter-spacing: 0.6px;
       text-align: right;
       line-height: 12px;
-    }
-    .arrow-icon {
-      width: 20px;
-      height: 24px;
     }
   }
 }

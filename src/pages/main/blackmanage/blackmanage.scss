@@ -1,0 +1,33 @@
+.manage-main {
+  margin: 18px;
+}
+
+.manage-footer {
+  position: fixed;
+  bottom: 0;
+  width: 375px;
+  height: 84px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .footer-btn {
+    width: 114px;
+    height: 36px;
+    text-align: center;
+    line-height: 36px;
+    font-size: 14px;
+    letter-spacing: 1.75px;
+    border-radius: 12px;
+
+    &.cancel {
+      color: #ED171F;
+      margin-right: 18px;
+      border: 1px solid #ED171F;
+    }
+    &.confirm {
+      color: #ffffff;
+      background: #ED171F;
+    }
+  }
+}

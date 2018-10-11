@@ -25,9 +25,15 @@
   display: flex;
 
   .role-item {
-    width: 67px;
+    width: 68Px;
     &.left {
       margin-right: 46px;
+    }
+    .avatar {
+      border-radius: 34Px;
+      &.selected {
+        border: 3Px solid #FE7F75;
+      }
     }
     .role-text {
       font-size: 16px;
