@@ -3,7 +3,7 @@ Schema = mongoose.Schema;
 var User = require('./user');
 
 var CardSchema = new Schema ({
-    card_num : {type : Number,index: true},
+    card_num : {type : String,index: true},
     card_thumb : {type : String},
     bank : {type : String},
     type  : {type : Number},

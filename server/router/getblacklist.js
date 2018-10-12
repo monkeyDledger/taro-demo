@@ -18,8 +18,7 @@ module.exports = (req, res) => {
     }
     else {
       if(users.length < 1) {
-        console.log("Data Not Found" );
-        res.send({code:1003,msg:"数据为空"});
+        res.send({code:1000,msg:"成功",data:[]});
       }else {
         var black_list = users[0].black_list;
         res.send({code:1000,msg:"成功",data:black_list});

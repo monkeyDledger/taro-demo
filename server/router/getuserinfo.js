@@ -9,13 +9,20 @@ var Card = require('../db/model/card');
 
 module.exports = (req, res) => {
 
+console.log("my req"+req.body.phone);
+
   var mainUser = new User({
-    user_id : req.body.mainId
-    
+    phone : req.body.phone
   });
   let main_role;
-  User.find({'user_id' : mainUser.user_id})
+  User.find({'phone' : mainUser.phone})
   .exec().then(function (users) {
+    if(users.length < 1) {
+      console.log("No Data!");
+      res.send({code:1002,msg:"No Data!"});
+      return;
+    }
+
     main_role = users[0].role;
     var where;
     if(main_role == "主卡人") {

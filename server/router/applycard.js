@@ -28,6 +28,11 @@ module.exports = (req, res) => {
       var main_Id,minor_Id;
         User.find ({'user_id' : mainUser.user_id})
         .exec().then(function (result) {
+          if(result.length < 1) {
+            console.log("No Data!");
+            res.send({code:1002,msg:"No Data!"});
+            return;
+          }
             main_Id = result[0].id;
             console.log("main_Id Res:" + main_Id);
 

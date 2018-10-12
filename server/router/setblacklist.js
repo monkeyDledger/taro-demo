@@ -7,18 +7,11 @@
 var User = require('../db/model/user');
 
 module.exports = (req, res) => {
-  if(!req.body) {
-    console.log("Params Error" );
-    res.send({code:1001,msg:"参数错误"});
-    return;
-  }
-  console.log("body:"+req.body.peopleId);
-
+  
   var wherestr = {"user_id":req.body.peopleId};
   var updatestr = {"black_list":req.body.black_list};
-
- console.log("black_list:"+req.body.black_list);
-
+  var jsonString = JSON.stringify(req.body);  
+  console.log("req body:"+req.body.black_list);
   User.update(wherestr,updatestr,function(error,result){
     if (error) {
       console.log("Update Error:" + error);

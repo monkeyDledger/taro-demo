@@ -4,7 +4,7 @@ var Card = require('./card');
 
 var AccountSchema = new Schema ({
     account_id : {type : String,index: true},
-    time : {type : Date},
+    time : {type : String},
     money : {type : Number},
     merchant : {type : String},
     merchant_id : {type : String},
