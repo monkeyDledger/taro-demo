@@ -46,24 +46,27 @@ export default class Detail extends Component {
       accountList: [
         {
           id: 1,
+          type: 'food',
           time: '2018.10.02 15:30',
           merchant: 'KFC',
           money: '22',
-          comment: 3
+          comment: 3,
         },
         {
           id: 2,
+          type: 'salary',
           time: '2018.10.02 15:30',
           merchant: '新东方',
           money: '120',
-          comment: 1
+          comment: 1,
         },
         {
           id: 3,
+          type: 'coffee',
           time: '2018.10.02 15:30',
           merchant: '星巴克',
           money: '36',
-          comment: 0
+          comment: 0,
         }
       ]
     };
@@ -119,6 +122,19 @@ export default class Detail extends Component {
       selected: state.curTab === 'setting'
     });
 
+    const timeline = state.accountList.map(item => {
+      return (
+        <Timeline
+          key={item.id}
+          time={item.time}
+          merchant={item.merchant}
+          money={item.money}
+          comment={item.comment}
+          type={item.type}
+        />
+      )
+    });
+
     let tabContent = null;
     tabContent =
       state.curTab === 'history' ? (
@@ -126,6 +142,9 @@ export default class Detail extends Component {
           <View className="history-header" onClick={this.onTagClick}>
             <Text className="history-header-text">评价标签</Text>
             <Image className="history-header-icon" src={arrowDown} />
+          </View>
+          <View className="detail-timeline">
+          {timeline}
           </View>
         </View>
       ) : (
@@ -153,18 +172,6 @@ export default class Detail extends Component {
           </View>
         </View>
       );
-
-      const timeline = state.map(item => {
-        return (
-          <Timeline
-            key={item.id}
-            time={item.time}
-            merchant={item.merchant}
-            money={item.money}
-            comment={item.money}
-          />
-        )
-      })
 
     return (
       <View className="container">
@@ -199,9 +206,6 @@ export default class Detail extends Component {
             </Text>
           </View>
           <View className="tab-content">{tabContent}</View>
-          <View className="detail-timeline">
-          {timeline}
-          </View>
         </View>
       </View>
     );
