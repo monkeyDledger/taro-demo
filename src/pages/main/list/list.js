@@ -6,6 +6,8 @@ import Card from '../../../components/card/card';
 import './list.scss';
 import addIcon from '../../../images/nav_bar/add_black@2x.png';
 
+import global from '../../../global';
+
 export default class List extends Component {
   config = {
     navigationBarTitleText: '云家付'
@@ -16,55 +18,97 @@ export default class List extends Component {
     this.state = {
       list: [
         {
-          id: '1',
-          name: '*军',
-          role: '父亲',
-          total: 2000,
-          quota: 1000
+          "_id": "5bbeef76e982da1a3f72fa67",
+          "card_num": 621024344423232,
+          "bank": "招商银行",
+          "type": 2,
+          "credit_line": 21000,
+          "main_id": "5bbe0c4603444209cabe8b4d",
+          "minor_id": "5bbeef76e982da1a3f72fa66",
+          "__v": 0,
+          "single_line": 255,
+          "people": "312384200903251234",
+          "name": "王大庄",
+          "role": "儿子"
         },
         {
-          id: '2',
-          name: '*溪',
-          role: '儿子',
-          total: 180,
-          quota: 100
+          "_id": "5bbf284a6a967e23874202f1",
+          "card_num": 625794849423232,
+          "bank": "农业银行",
+          "type": 2,
+          "credit_line": 21000,
+          "main_id": "5bbe0c4603444209cabe8b4d",
+          "minor_id": "5bbf284a6a967e23874202f0",
+          "__v": 0,
+          "single_line": 255,
+          "people": "312384201803251234",
+          "name": "王梅",
+          "role": "女儿"
         },
         {
-          id: '3',
-          name: '*婷',
-          role: '闺女',
-          applying: true,
+          "_id": "5bbf2a64ff81592413724d61",
+          "card_num": 6219999344423232,
+          "bank": "中国银行",
+          "type": 2,
+          "credit_line": 2000,
+          "main_id": "5bbe0c4603444209cabe8b4d",
+          "minor_id": "5bbf2a64ff81592413724d60",
+          "__v": 0,
+          "people": "312999999999999999",
+          "name": "王笑",
+          "role": "女儿"
         }
-      ]
+      ],
     };
+  }
+
+  componentWillMount() {
+    const user = global.get('user');
+    let list = [];
+    if (user) {
+      list = user.infolist || [];
+      list && this.setState({list});
+    }
   }
 
   handleAddNewCard() {
     Taro.navigateTo({
-      url: '/'
+      url: '/pages/home/home'
     });
   }
 
   onItemClick(item) {
-    const param = 'role=' + item.role + '&cardId=' + item.id + '&name=' + item.name;
+    const quota = item.credit_line - item.quota_used || 200;
+
+    const cardDetail = {
+      role: item.role,
+      cardId: item._id,
+      name: item.name,
+      isMain: true,
+      total: item.credit_line,
+      quota: quota,
+      card_num: item.card_num,
+      people: item.people,
+    }
+    global.set('cardDetail', cardDetail);
     Taro.navigateTo({
-      url: '../detail/detail?' + param,
-    })
+      url: '../detail/detail',
+    });
   }
 
   render() {
     const { list } = this.state;
     const route = this.$router;
     const cards = list.map(item => {
+      const quota = item.credit_line - item.quota_used;
       return (
         <Card
-          key={item.id}
+          key={item._id}
           isMain
           name={item.name}
           role={item.role}
-          applying={item.applying}
-          total={item.total}
-          quota={item.quota}
+          total={item.credit_line}
+          quota={quota || 200}
           onCardClick={this.onItemClick.bind(this, item)}
         />
       );

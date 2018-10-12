@@ -7,6 +7,8 @@ import Timeline from '../../../components/timeline/timeline';
 
 import './detail.scss';
 
+import global from '../../../global';
+
 import spdCard from '../../../images/cards/card_spd@2x.png';
 import arrowDown from '../../../images/icons/arrow_down@2x.png';
 import settingBlack from '../../../images/icons/setting_black@2x.png';
@@ -29,20 +31,25 @@ export default class Detail extends Component {
       role: '',
       quota: 600,
       total: 800,
-      curTab: 'history',
-      isMain: true
+      curTab: 'history'
     };
   }
 
   componentWillMount() {
-    const param = this.$router.params;
-    const isMain = param.isMain;
-    const title = isMain ? '为' + param.role + '开通的' : '来自' + param.role;
-    const state = {
+    // const param = this.$router.params;
+    // const isMain = param.isMain;
+    const cardDetail = global.get('cardDetail') || {};
+    const title = cardDetail.isMain
+      ? '为' + cardDetail.role + '开通的'
+      : '来自' + cardDetail.role;
+    let state = {
       title: title,
-      name: param.name,
-      role: param.role,
-      isMain: isMain ? true : false,
+      name: cardDetail.name,
+      role: cardDetail.role,
+      isMain: cardDetail.isMain,
+      quota: cardDetail.quota,
+      total: cardDetail.total,
+      people: cardDetail.people,
       accountList: [
         {
           id: 1,
@@ -50,7 +57,7 @@ export default class Detail extends Component {
           time: '2018.10.02 15:30',
           merchant: 'KFC',
           money: '22',
-          comment: 3,
+          comment: 3
         },
         {
           id: 2,
@@ -58,7 +65,7 @@ export default class Detail extends Component {
           time: '2018.10.02 15:30',
           merchant: '新东方',
           money: '120',
-          comment: 1,
+          comment: 1
         },
         {
           id: 3,
@@ -66,11 +73,18 @@ export default class Detail extends Component {
           time: '2018.10.02 15:30',
           merchant: '星巴克',
           money: '36',
-          comment: 0,
+          comment: 0
         }
       ]
     };
-    this.setState(state);
+    const card_num = cardDetail['card_num'];
+    if (card_num) {
+      global.post('accountlist', { card_num: card_num }).then(res => {
+        console.log('account', res);
+        state.accountList = res.data;
+        this.setState(state);
+      });
+    }
   }
 
   onTabClick(tab) {
@@ -79,6 +93,8 @@ export default class Detail extends Component {
   }
 
   onBlackBtnClick() {
+    const {people} = this.state;
+    global.set('people', people);
     Taro.navigateTo({
       url: '../blacklist/blacklist'
     });
@@ -106,11 +122,14 @@ export default class Detail extends Component {
 
   onTagClick() {}
 
+  onTimeItemClick() {
+
+  }
+
   render() {
     const { ...state } = this.state;
     const user = state.name + '(' + state.role + ')';
     const amount = state.quota + '/' + state.total + '元';
-    const progressColor = '#F5F5F5';
     const percent = Math.round((state.quota / state.total) * 100);
 
     const historyTabStyle = cls({
@@ -119,10 +138,13 @@ export default class Detail extends Component {
     });
     const settingTabStyle = cls({
       'detail-tab-text': true,
+      right: true,
       selected: state.curTab === 'setting'
     });
+    const activeColor = '#ED171F';
 
-    const timeline = state.accountList.map(item => {
+    let timeline = null;
+    timeline = state.accountList && state.accountList.map(item => {
       return (
         <Timeline
           key={item.id}
@@ -131,8 +153,9 @@ export default class Detail extends Component {
           money={item.money}
           comment={item.comment}
           type={item.type}
+          onItemClick={this.onTimeItemClick.bind(this)}
         />
-      )
+      );
     });
 
     let tabContent = null;
@@ -143,9 +166,7 @@ export default class Detail extends Component {
             <Text className="history-header-text">评价标签</Text>
             <Image className="history-header-icon" src={arrowDown} />
           </View>
-          <View className="detail-timeline">
-          {timeline}
-          </View>
+          <View className="detail-timeline">{timeline}</View>
         </View>
       ) : (
         <View className="setting-container">
@@ -187,7 +208,7 @@ export default class Detail extends Component {
               <Progress
                 className="card-detail-progress"
                 percent={percent}
-                activeColor={progressColor}
+                activeColor={activeColor}
               />
             </View>
           </View>

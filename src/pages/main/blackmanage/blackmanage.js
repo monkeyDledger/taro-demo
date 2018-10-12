@@ -6,6 +6,8 @@ import GameItem from '../../../components/game/game';
 
 import './blackmanage.scss';
 
+import global from '../../../global';
+
 import pvpIcon from '../../../images/black_logo/王者荣耀@2x.png';
 import lolIcon from '../../../images/black_logo/英雄联盟@2x.png';
 import cfIcon from '../../../images/black_logo/CF@2x.png';
@@ -20,27 +22,27 @@ export default class BlackManage extends Component {
     this.state = {
       gameList: [
         {
-          name: '王者荣耀点券充值',
+          merchant: '王者荣耀点券充值',
           logo: pvpIcon,
           checked: false
         },
         {
-          name: '英雄联盟充值服务',
+          merchant: '英雄联盟充值服务',
           logo: lolIcon,
-          checked: true
+          checked: false,
         },
         {
-          name: 'CF充值服务',
+          merchant: 'CF充值服务',
           logo: cfIcon,
-          checked: true
+          checked: false,
         }
       ]
     };
-    this.curGameList = null;
   }
 
   componentDidMount() {
-    this.curGameList = this.state.gameList;
+    const gameList = global.get('blacklist') || this.state.gameList;
+    this.setState({gameList});
   }
 
   onItemClick(index) {
@@ -55,6 +57,17 @@ export default class BlackManage extends Component {
   }
 
   onConfirmBtnClick() {
+    const selectedList = this.state.gameList.filter(item => {
+      return item.checked;
+    });
+    console.log(selectedList);
+    const param = {
+      peopleId: global.get('people') || '',
+      black_list: JSON.stringify(selectedList),
+    };
+    global.post('setblacklist', param).then(res => {
+      console.log('setblack', res);
+    })
     Taro.navigateBack();
   }
 
@@ -64,7 +77,7 @@ export default class BlackManage extends Component {
       return (
         <GameItem
           key={index}
-          name={item.name}
+          name={item.merchant}
           logo={item.logo}
           checked={item.checked}
           onItemClick={this.onItemClick.bind(this, index)}

@@ -28,7 +28,7 @@ export default class TimeLine extends Component {
       commentIcon =
         props.comment === 1
           ? smileIcon
-          : expression === 2
+          : props.comment === 2
             ? peaceIcon
             : sadIcon;
       console.log(commentIcon);

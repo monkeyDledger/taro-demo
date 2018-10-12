@@ -8,6 +8,7 @@ class App extends Component {
   config = {
     pages: [
       'pages/index/index',
+      'pages/home/home',
       'pages/amount/amount',
       'pages/apply/apply',
       'pages/status/status',
@@ -19,7 +20,7 @@ class App extends Component {
       'pages/transaction/transaction',
       'pages/parents/parents',
       'pages/child/index/index',
-      'pages/child/plan/plan'
+      // 'pages/child/plan/plan'
     ],
     window: {
       backgroundTextStyle: 'black',

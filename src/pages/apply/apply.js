@@ -3,6 +3,8 @@ import { View, Text, Image, Input } from '@tarojs/components';
 import Header from '../../components/header/header';
 import './apply.scss';
 
+import global from '../../global'
+
 import arrowRight from '../../images/form/gray_right_default@2x.png';
 
 export default class Apply extends Component {
@@ -17,19 +19,28 @@ export default class Apply extends Component {
       phone: '',
       identityNo: '',
       name: '',
-      card: ''
+      card: '',
+      cardList: [],
     };
   }
 
   componentDidMount() {
-    this.roleList = ['父亲', '母亲'];
+    const params = this.$router.params;
+    const user = global.get('user') || {};
+    const cardlist = user.card_list || [];
+    this.roleList = params.roleType === '1' ? ['父亲', '母亲'] : ['儿子', '女儿'];
+    const cardList = this.state.cardList.map(item => {
+      const list = [];
+      const text = item.bank + '[' + item.card_num.substr(12, 4) + ']';
+      list.push(text);
+      return list;
+    });
+    this.setState({cardList});
   }
 
   handleRoleChange() {}
 
   handlePhoneChange() {}
-
-  handleIdNumberChange() {}
 
   handleNameChange() {
 
@@ -67,8 +78,10 @@ export default class Apply extends Component {
     })
   }
 
+  handleSelectRole
+
   render() {
-    const { role, phone, identityNo, name, card } = this.state;
+    const { role, phone, name, card } = this.state;
     return (
       <View className="container">
         <Header text={this.config.navigationBarTitleText} />
@@ -81,6 +94,7 @@ export default class Apply extends Component {
                 <Input
                   placeholder="选择与主卡人关系"
                   value={role}
+                  disabled
                   onChange={this.handleRoleChange}
                 />
               </View>
@@ -93,12 +107,13 @@ export default class Apply extends Component {
                 <Input
                   placeholder="输入对方手机号"
                   value={phone}
+                  type="number"
                   onChange={this.handlePhoneChange}
                 />
               </View>
             </View>
             <View className="divider" />
-            <View className="input-line">
+            {/* <View className="input-line">
               <Text className="input-label">身份证号</Text>
               <View className="input-content">
                 <Input
@@ -108,7 +123,7 @@ export default class Apply extends Component {
                 />
               </View>
             </View>
-            <View className="divider" />
+            <View className="divider" /> */}
             <View className="input-line">
               <Text className="input-label">姓名</Text>
               <View className="input-content">
@@ -128,7 +143,7 @@ export default class Apply extends Component {
                 <Input
                   placeholder="选择一张信用卡"
                   value={card}
-                  onChange={this.handleRoleChange}
+                  onChange={this.handleCardChange}
                 />
               </View>
               <Image className="input-icon" src={arrowRight} />

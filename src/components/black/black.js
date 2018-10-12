@@ -6,14 +6,14 @@ import './black.scss'
 /**
  * 黑名单列表项
  */
-export default class Card extends Component {
+export default class Black extends Component {
 
   render () {
-    const {...data} = this.props;
+    const {icon, name} = this.props;
     return (
       <View className="card-black">
-        <Image className="left-icon" src={data.icon}></Image>
-        <Text className="black-name">{data.name}</Text>
+        <Image className="left-icon" src={icon}></Image>
+        <Text className="black-name">{name}</Text>
         <View className="black-right">
           <Text className="black-type">禁止消费</Text>
         </View>

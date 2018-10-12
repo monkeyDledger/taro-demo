@@ -1,72 +1,103 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View, Text, Image } from '@tarojs/components';
+import { View, Image, Text, Input } from '@tarojs/components';
 import cls from 'classnames';
+import global from '../../global';
 
-import Header from '../../components/header/header';
 import './index.scss';
+import bgImg from '../../images/login@2x.png';
 
-import parentsAvatar from '../../images/avatar/parents@2x.png';
-import childAvatar from '../../images/avatar/children@2x.png';
-
-export default class Index extends Component {
-  config = {
-    navigationBarTitleText: '云家付'
-  };
-
+export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedType: 0
+      phone: '13127772666',
+      password: '',
+      isLoginAbled: false,
     };
   }
 
-  handleRoleSelected(selectedType) {
-    this.setState({ selectedType });
+  handlePhoneChange(e) {
+    const phone = e.detail.value;
+    this.setState({phone});
   }
 
-  handleNext() {
-    Taro.navigateTo({
-      url: 'pages/apply/apply'
+  handlePasswordChange(e) {
+    const password = e.detail.value;
+    this.setState({password}, (nextState) => {
+        this.setState({
+          isLoginAbled: true,
+        });
     });
+  }
+
+  handleLogin() {
+    const {phone, password} = this.state;
+    if (phone && password) {
+      global.post('getuserinfo', {
+        phone: phone,
+        password: password
+      }).then(res => {
+        console.log(res);
+        global.set('user', res.data);
+        if (res.data && res.data.infolist) {
+          Taro.navigateTo({
+            url: 'pages/main/list/list',
+          })
+        } else {
+          Taro.navigateTo({
+            url: 'pages/home/home'
+          })
+        }
+      })
+    }
   }
 
   render() {
-    const { selectedType } = this.state;
-    const parentAvatarStyle = cls({
-      avatar: true,
-      selected: selectedType === 1
+    const {phone, password, isLoginAbled} = this.state;
+    const btnStyle = cls({
+      'next-btn': true,
+      'disabled': !isLoginAbled
     });
-    const childAvatarStyle = cls({
-      avatar: true,
-      selected: selectedType === 2
-    });
-
     return (
-      <View className="container">
-        <Header text="云家付" />
-        <Text className="title">替家人开通云家付</Text>
-        <Text className="slogan">申请信用卡附属卡，家人消费我买单</Text>
-        <View className="roles">
-          <Text className="select-text">选择你要开通的家人</Text>
-          <View className="role-wrapper">
-            <View
-              className="role-item left"
-              onClick={this.handleRoleSelected.bind(this, 1)}
-            >
-              <Image className={parentAvatarStyle} src={parentsAvatar} />
-              <Text className="role-text">父母</Text>
+      <View className="login-main">
+        <Image className="back-img" src={bgImg} />
+        <View className="login-form">
+          <View className="form-container login-input">
+            <View className="input-line login-line">
+              <Text className="input-label">手机号</Text>
+              <View
+                className="input-content"
+              >
+                <Input
+                  placeholder="输入已注册云闪付的手机号"
+                  type="number"
+                  value={phone}
+                  onChange={this.handlePhoneChange.bind(this)}
+                />
+              </View>
             </View>
-            <View
-              className="role-item"
-              onClick={this.handleRoleSelected.bind(this, 2)}
-            >
-              <Image className={childAvatarStyle} src={childAvatar} />
-              <Text className="role-text">子女</Text>
+          </View>
+          <View className="form-container">
+            <View className="input-line">
+              <Text className="input-label">密码</Text>
+              <View
+                className="input-content"
+              >
+                <Input
+                  placeholder="输入密码"
+                  value={password}
+                  type="password"
+                  onChange={this.handlePasswordChange.bind(this)}
+                />
+              </View>
             </View>
           </View>
         </View>
-        <View className="next-btn" onClick={this.handleNext}>
-          下一步
+        <View
+          className={btnStyle}
+          onClick={this.handleLogin.bind(this)}
+        >
+          登录
         </View>
       </View>
     );

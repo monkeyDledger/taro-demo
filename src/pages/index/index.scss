@@ -1,49 +1,27 @@
-.title {
-  width: 100%;
-  margin: 33px auto 13px;
-  font-size: 24px;
-  color: #666;
-  text-align: center;
-}
+.login-main {
+  width: 100vw;
+  height: 100vh;
 
-.slogan {
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  color: #666666;
-}
-
-.roles {
-  width: 100%;
-  margin-top: 70px;
-  text-align: center;
-}
-
-.role-wrapper {
-  width: 180px;
-  margin: 26px auto 0;
-  display: flex;
-
-  .role-item {
-    width: 68Px;
-    &.left {
-      margin-right: 46px;
-    }
-    .avatar {
-      border-radius: 34Px;
-      &.selected {
-        border: 3Px solid #FE7F75;
-      }
-    }
-    .role-text {
-      font-size: 16px;
-      color: #666666;
-      text-align: center;
-    }
+  .back-img {
+    width: 100%;
+    height: 100%;
   }
-}
+  .login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 340px;
+    margin-top: -63px;
+    margin-left: -170px;
+    height: 126px;
+    z-index: 9;
+  }
 
-.select-text {
-  font-size: 16px;
-  color: #666;
+  .next-btn {
+    position: absolute;
+    top: calc(50% + 68px);
+    left: 50%;
+    margin-left: -67px;
+  }
+
 }
