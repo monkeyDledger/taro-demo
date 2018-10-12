@@ -1,0 +1,26 @@
+.bill-content {
+  background: #FFFFFF;
+  box-shadow: 0 1px 5px 0 rgba(0,0,0,0.06);
+  border-radius: 12px;
+  margin-top: 22px;
+  padding: 25px 18px;
+
+  .bill-item {
+    display: flex;
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: 18px;
+
+    .bill-label {
+      width: 72px;
+      color: #333;
+    }
+    .bill-text {
+      flex-grow: 1;
+      margin-left: 26px;
+      color: #666;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

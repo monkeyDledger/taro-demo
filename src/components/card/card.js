@@ -12,7 +12,7 @@ import childAvatar from '../../images/avatar/children@2x.png';
 export default class Card extends Component {
   render() {
     const { ...data } = this.props;
-    const title = '为' + data.role + '开通的';
+    const title = data.isMain ? '为' + data.role + '开通的' : '来自' + data.role;
     const avatar = data.role == '父亲' ? parentsAvatar : childAvatar;
 
     const right = data.applying ? (

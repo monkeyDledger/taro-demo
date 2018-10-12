@@ -59,6 +59,7 @@ export default class List extends Component {
       return (
         <Card
           key={item.id}
+          isMain
           name={item.name}
           role={item.role}
           applying={item.applying}

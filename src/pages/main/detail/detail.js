@@ -28,17 +28,20 @@ export default class Detail extends Component {
       role: '',
       quota: 600,
       total: 800,
-      curTab: 'history'
+      curTab: 'history',
+      isMain: true,
     };
   }
 
   componentWillMount() {
     const param = this.$router.params;
-    const title = '为' + param.role + '开通的';
+    const isMain = param.isMain;
+    const title =  isMain ? '为' + param.role + '开通的' : '来自' + param.role;
     const state = {
       title: title,
       name: param.name,
-      role: param.role
+      role: param.role,
+      isMain: isMain ? true : false,
     };
     this.setState(state);
   }
@@ -46,6 +49,32 @@ export default class Detail extends Component {
   onTabClick(tab) {
     const curTab = tab;
     this.setState({ curTab });
+  }
+
+  onBlackBtnClick() {
+    Taro.navigateTo({
+      url: '../blacklist/blacklist',
+    })
+  }
+  onLimitBtnClick() {
+    Taro.navigateTo({
+      url: '../limit/limit'
+    })
+  }
+  onDeleteBtnClick() {
+    const param = {
+      title: '您确定要解绑该银行卡吗？',
+      content: '解绑后，该银行卡在云闪付APP所关联的信息将全部删除。',
+      cancelColor: '#666',
+      confirmColor: '#ED171F',
+      success: (res) => {
+        // TODO 解绑卡
+      },
+      fail: (res) => {
+        console.error(res.errMsg);
+      }
+    }
+    Taro.showModal(param);
   }
 
   onTagClick() {}
@@ -77,19 +106,18 @@ export default class Detail extends Component {
         </View>
       ) : (
         <View className="setting-container">
-          <View className="setting-item">
+          <View className="setting-item" onClick={this.onBlackBtnClick.bind(this)}>
             <Image className="setting-icon" src={settingBlack} />
             <Text className="setting-text">黑名单设置</Text>
           </View>
-          <View className="setting-item">
+          <View className="setting-item" onClick={this.onLimitBtnClick.bind(this)}>
             <Image className="setting-icon" src={settingLimit} />
             <Text className="setting-text">消费额度设置</Text>
           </View>
-          <View className="setting-item">
+          <View className="setting-item" onClick={this.onDeleteBtnClick.bind(this)}>
             <Image className="setting-icon" src={settingDelete} />
             <Text className="setting-text">解绑卡片</Text>
           </View>
-          <Image className="setting-icon" src={settingDelete} />
         </View>
       );
 

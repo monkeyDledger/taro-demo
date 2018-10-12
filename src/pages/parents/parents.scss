@@ -1,0 +1,72 @@
+.parents-main {
+  margin: 26px 18px;
+
+  .parents-content {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .parents-card-text {
+      font-size: 20px;
+      color: #333333;
+
+      &.card-label {
+        width: 100%;
+        padding-left: 20px;
+      }
+    }
+
+    .parents-card {
+      background: #FFFFFF;
+      box-shadow: 0 1px 5px 0 rgba(0,0,0,0.06);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      &.func {
+        width: 162px;
+        height: 200px;
+
+        &.left {
+          margin-right: 8px;
+        }
+      }
+      &.family {
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        height: 180px;
+        margin-top: 18px;
+        margin-top: 22px;
+        position: relative;
+      }
+    }
+
+    .parents-card-icon {
+      width: 74px;
+      height: 74px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .family-item {
+    width: 135px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    .family-avatar {
+      width: 40px;
+      height: 40px;
+    }
+    .family-text {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #666666;
+    }
+  }
+}
