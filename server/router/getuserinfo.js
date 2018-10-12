@@ -8,13 +8,10 @@ var User = require('../db/model/user');
 var Card = require('../db/model/card');
 
 module.exports = (req, res) => {
-  if(!req) {
-    console.log("Params Error" );
-    res.send({code:1001,msg:"参数错误"});
-    return;
-  }
+
   var mainUser = new User({
     user_id : req.body.mainId
+    
   });
   let main_role;
   User.find({'user_id' : mainUser.user_id})
@@ -37,7 +34,16 @@ module.exports = (req, res) => {
           res.send({code:1002,msg:"No Data!"});
           return;
         }
-        var result = cards.map((card) => {
+        var minorcards = [],maincards = []; 
+ 
+        for(let i=0;i<cards.length;i++) {
+          if(cards[i].type == 1) 
+            maincards.push(cards[i]);
+          if(cards[i].type == 2) 
+            minorcards.push(cards[i]);
+        }
+        
+        var result = minorcards.map((card) => {
           let getResult = function() {
             return new Promise((resolve,reject) => {
               var check_id;
@@ -67,7 +73,7 @@ module.exports = (req, res) => {
         });
         Promise.all(result).then((infolist) => {
           console.log("result: " + result.toString())
-          res.send({code:1000,msg:'成功',data:{role:main_role,infolist}});
+          res.send({code:1000,msg:'成功',data:{role:main_role,card_list:maincards,infolist}});
         });
       }
     });

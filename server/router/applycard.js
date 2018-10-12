@@ -7,13 +7,6 @@
 var User = require('../db/model/user');
 var Card = require('../db/model/card');
 module.exports = (req, res) => {
-  if(!req.body) {
-    console.log("Params Error" );
-    res.send({code:1001,msg:"参数错误"});
-    return;
-  }
-
-
   var mainUser = new User({
     user_id : req.body.mainId
   });
