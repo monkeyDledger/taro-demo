@@ -9,6 +9,7 @@ var UserSchema = new Schema ({
     thumb : {type : String},
     sex : {type : Number},
     role : {type : String},
+    black_list : {type : Array}
 });
 
 module.exports = mongoose.model('User',UserSchema);

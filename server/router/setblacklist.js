@@ -7,6 +7,12 @@
 var User = require('../db/model/user');
 
 module.exports = (req, res) => {
+  if(!req.body) {
+    console.log("Params Error" );
+    res.send({code:1001,msg:"参数错误"});
+    return;
+  }
+  console.log("body:"+req.body.peopleId);
 
   var wherestr = {"user_id":req.body.peopleId};
   var updatestr = {"black_list":req.body.black_list};
