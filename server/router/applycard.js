@@ -6,6 +6,7 @@
  */
 var User = require('../db/model/user');
 var Card = require('../db/model/card');
+var randomstring = require('randomstring');
 module.exports = (req, res) => {
   var mainUser = new User({
     user_id : req.body.mainId
@@ -36,9 +37,13 @@ module.exports = (req, res) => {
                 console.log("minor_Id Res:" + minor_Id);
                 var card = new Card (
                   {
-                      card_num : '6219999344423232',
+                    
+                      card_num : '62'+randomstring.generate({
+                        length: 14,
+                        charset: '0123456789'
+                      }),
                       bank : '中国银行',
-                      type : 0,
+                      type : 2,
                       credit_line : req.body.credit_line,
                       main_id : main_Id,
                       minor_id : minor_Id
