@@ -3,6 +3,7 @@ import { View, Text, Image, Progress } from '@tarojs/components';
 import cls from 'classnames';
 
 import Header from '../../../components/header/header';
+import Timeline from '../../../components/timeline/timeline';
 
 import './detail.scss';
 
@@ -29,19 +30,42 @@ export default class Detail extends Component {
       quota: 600,
       total: 800,
       curTab: 'history',
-      isMain: true,
+      isMain: true
     };
   }
 
   componentWillMount() {
     const param = this.$router.params;
     const isMain = param.isMain;
-    const title =  isMain ? '为' + param.role + '开通的' : '来自' + param.role;
+    const title = isMain ? '为' + param.role + '开通的' : '来自' + param.role;
     const state = {
       title: title,
       name: param.name,
       role: param.role,
       isMain: isMain ? true : false,
+      accountList: [
+        {
+          id: 1,
+          time: '2018.10.02 15:30',
+          merchant: 'KFC',
+          money: '22',
+          comment: 3
+        },
+        {
+          id: 2,
+          time: '2018.10.02 15:30',
+          merchant: '新东方',
+          money: '120',
+          comment: 1
+        },
+        {
+          id: 3,
+          time: '2018.10.02 15:30',
+          merchant: '星巴克',
+          money: '36',
+          comment: 0
+        }
+      ]
     };
     this.setState(state);
   }
@@ -53,13 +77,13 @@ export default class Detail extends Component {
 
   onBlackBtnClick() {
     Taro.navigateTo({
-      url: '../blacklist/blacklist',
-    })
+      url: '../blacklist/blacklist'
+    });
   }
   onLimitBtnClick() {
     Taro.navigateTo({
       url: '../limit/limit'
-    })
+    });
   }
   onDeleteBtnClick() {
     const param = {
@@ -67,13 +91,13 @@ export default class Detail extends Component {
       content: '解绑后，该银行卡在云闪付APP所关联的信息将全部删除。',
       cancelColor: '#666',
       confirmColor: '#ED171F',
-      success: (res) => {
+      success: res => {
         // TODO 解绑卡
       },
-      fail: (res) => {
+      fail: res => {
         console.error(res.errMsg);
       }
-    }
+    };
     Taro.showModal(param);
   }
 
@@ -106,20 +130,41 @@ export default class Detail extends Component {
         </View>
       ) : (
         <View className="setting-container">
-          <View className="setting-item" onClick={this.onBlackBtnClick.bind(this)}>
+          <View
+            className="setting-item"
+            onClick={this.onBlackBtnClick.bind(this)}
+          >
             <Image className="setting-icon" src={settingBlack} />
             <Text className="setting-text">黑名单设置</Text>
           </View>
-          <View className="setting-item" onClick={this.onLimitBtnClick.bind(this)}>
+          <View
+            className="setting-item"
+            onClick={this.onLimitBtnClick.bind(this)}
+          >
             <Image className="setting-icon" src={settingLimit} />
             <Text className="setting-text">消费额度设置</Text>
           </View>
-          <View className="setting-item" onClick={this.onDeleteBtnClick.bind(this)}>
+          <View
+            className="setting-item"
+            onClick={this.onDeleteBtnClick.bind(this)}
+          >
             <Image className="setting-icon" src={settingDelete} />
             <Text className="setting-text">解绑卡片</Text>
           </View>
         </View>
       );
+
+      const timeline = state.map(item => {
+        return (
+          <Timeline
+            key={item.id}
+            time={item.time}
+            merchant={item.merchant}
+            money={item.money}
+            comment={item.money}
+          />
+        )
+      })
 
     return (
       <View className="container">
@@ -154,6 +199,9 @@ export default class Detail extends Component {
             </Text>
           </View>
           <View className="tab-content">{tabContent}</View>
+          <View className="detail-timeline">
+          {timeline}
+          </View>
         </View>
       </View>
     );
