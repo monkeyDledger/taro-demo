@@ -2,8 +2,9 @@ import Taro, { Component } from '@tarojs/taro';
 import { View, Text, Image, Input } from '@tarojs/components';
 import Header from '../../components/header/header';
 import './apply.scss';
+import cls from 'classnames';
 
-import global from '../../global'
+import global from '../../global';
 
 import arrowRight from '../../images/form/gray_right_default@2x.png';
 
@@ -17,10 +18,9 @@ export default class Apply extends Component {
     this.state = {
       role: '',
       phone: '',
-      identityNo: '',
       name: '',
       card: '',
-      cardList: [],
+      cardList: []
     };
   }
 
@@ -28,22 +28,31 @@ export default class Apply extends Component {
     const params = this.$router.params;
     const user = global.get('user') || {};
     const cardlist = user.card_list || [];
-    this.roleList = params.roleType === '1' ? ['父亲', '母亲'] : ['儿子', '女儿'];
-    const cardList = this.state.cardList.map(item => {
-      const list = [];
-      const text = item.bank + '[' + item.card_num.substr(12, 4) + ']';
+    this.roleList =
+      params.roleType === '1' ? ['父亲', '母亲'] : ['儿子', '女儿'];
+    let list = [];
+    for (let i = 0; i < cardlist.length; i++) {
+      const item = cardlist[i];
+      const text = item.bank + ' [' + item.card_num.substr(11, 4) + ']';
       list.push(text);
-      return list;
-    });
-    this.setState({cardList});
+    }
+    const cardList = list;
+    this.setState({ cardList });
   }
 
-  handleRoleChange() {}
+  handleRoleChange(e) {
+    const role = e.detail.value;
+    this.setState({ role });
+  }
 
-  handlePhoneChange() {}
+  handlePhoneChange(e) {
+    const phone = e.detail.value;
+    this.setState({ phone });
+  }
 
-  handleNameChange() {
-
+  handleNameChange(e) {
+    const name = e.detail.value;
+    this.setState({ name });
   }
 
   handleNext() {
@@ -68,17 +77,30 @@ export default class Apply extends Component {
     Taro.showActionSheet({
       itemList: this.roleList,
       itemColor: '#333333',
-      success: (res) => {
+      success: res => {
         const role = this.roleList[res.tapIndex];
-        role && this.setState({role});
+        role && this.setState({ role });
       },
-      fail: (res) => {
+      fail: res => {
         console.error(res.errMsg);
       }
-    })
+    });
   }
 
-  handleSelectRole
+  onCardClick() {
+    const { cardList } = this.state;
+    Taro.showActionSheet({
+      itemList: this.state.cardList,
+      itemColor: '#333333',
+      success: res => {
+        const card = cardList[res.tapIndex];
+        card && this.setState({ card });
+      },
+      fail: res => {
+        console.error(res.errMsg);
+      }
+    });
+  }
 
   render() {
     const { role, phone, name, card } = this.state;
@@ -90,7 +112,10 @@ export default class Apply extends Component {
           <View className="form-container">
             <View className="input-line">
               <Text className="input-label">角色</Text>
-              <View className="input-content" onClick={this.handleSelectRole.bind(this)}>
+              <View
+                className="input-content"
+                onClick={this.handleSelectRole.bind(this)}
+              >
                 <Input
                   placeholder="选择与主卡人关系"
                   value={role}
@@ -108,7 +133,7 @@ export default class Apply extends Component {
                   placeholder="输入对方手机号"
                   value={phone}
                   type="number"
-                  onChange={this.handlePhoneChange}
+                  onChange={this.handlePhoneChange.bind(this)}
                 />
               </View>
             </View>
@@ -130,7 +155,7 @@ export default class Apply extends Component {
                 <Input
                   placeholder="输入对方姓名"
                   value={name}
-                  onChange={this.handleNameChange}
+                  onChange={this.handleNameChange.bind(this)}
                 />
               </View>
             </View>
@@ -139,10 +164,14 @@ export default class Apply extends Component {
           <View className="form-container">
             <View className="input-line">
               <Text className="input-label">信用卡</Text>
-              <View className="input-content">
+              <View
+                className="input-content"
+                onClick={this.onCardClick.bind(this)}
+              >
                 <Input
                   placeholder="选择一张信用卡"
                   value={card}
+                  disabled
                   onChange={this.handleCardChange}
                 />
               </View>
