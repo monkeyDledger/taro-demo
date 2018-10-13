@@ -63,11 +63,22 @@ export default class List extends Component {
   }
 
   componentWillMount() {
-    const user = global.get('user');
+    this.user = global.get('user');
     let list = [];
-    if (user) {
-      list = user.infolist || [];
+    if (this.user) {
+      list = this.user.infolist || [];
       list && this.setState({list});
+    }
+  }
+
+  componentDidShow() {
+    const phone = global.get('phone');
+
+    if (phone) {
+      global.post('getuserinfo', {phone: phone}).then(res => {
+        const list = res.data.infolist;
+        this.setState({list});
+      })
     }
   }
 

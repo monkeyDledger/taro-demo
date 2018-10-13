@@ -39,14 +39,30 @@ export default class Login extends Component {
       }).then(res => {
         console.log(res);
         global.set('user', res.data);
-        if (res.data && res.data.infolist) {
-          Taro.navigateTo({
-            url: 'pages/main/list/list',
-          })
-        } else {
-          Taro.navigateTo({
-            url: 'pages/home/home'
-          })
+        global.set('phone', phone);
+        const data = res.data;
+        if (data) {
+          if (data.role == '主卡人') {
+            if (data.infolist) {
+              Taro.navigateTo({
+                url: 'pages/main/list/list',
+              })
+            } else {
+              Taro.navigateTo({
+                url: 'pages/home/home'
+              })
+            }
+          }
+          if (data.role == '父亲' || data.role == '母亲') {
+            Taro.navigateTo({
+              url: '/pages/parents/parents'
+            })
+          }
+          if (data.role == '儿子' || data.role == '女儿') {
+            Taro.navigateTo({
+              url: '/pages/child/index/index',
+            })
+          }
         }
       })
     }

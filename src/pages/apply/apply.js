@@ -20,7 +20,8 @@ export default class Apply extends Component {
       phone: '',
       name: '',
       card: '',
-      cardList: []
+      cardList: [],
+      isInfoCompleted: false,
     };
   }
 
@@ -57,19 +58,21 @@ export default class Apply extends Component {
 
   handleNext() {
     const { ...states } = this.state;
-    const isInfoCompleted =
-      states.role && states.phone && states.identityNo && states.card;
-    if (isInfoCompleted) {
-      Taro.showToast({
-        title: '信息未填写完整',
-        duration: 1500,
-        icon: 'none'
-      });
+    const isInfoCompleted = states.isInfoCompleted;
+    if (!isInfoCompleted) {
+      return;
     } else {
       // TODO，信息校验
-      Taro.navigateTo({
-        url: '../amount/amount'
+      global.set('applyInfo', {
+        role: states.role,
+        phone: states.phone,
+        minorName: states.name,
+        card: states.card,
+        minorId: '321283199210197613',
       });
+      Taro.navigateTo({
+        url: '../amount/amount',
+      })
     }
   }
 
@@ -94,7 +97,8 @@ export default class Apply extends Component {
       itemColor: '#333333',
       success: res => {
         const card = cardList[res.tapIndex];
-        card && this.setState({ card });
+        const isInfoCompleted = true;
+        card && this.setState({ card, isInfoCompleted });
       },
       fail: res => {
         console.error(res.errMsg);
@@ -103,7 +107,11 @@ export default class Apply extends Component {
   }
 
   render() {
-    const { role, phone, name, card } = this.state;
+    const { role, phone, name, card, isInfoCompleted } = this.state;
+    const btnStyle = cls({
+      'next-btn': true,
+      'disabled': !isInfoCompleted,
+    });
     return (
       <View className="container">
         <Header text={this.config.navigationBarTitleText} />
@@ -180,7 +188,7 @@ export default class Apply extends Component {
           </View>
         </View>
         <View
-          className="next-btn disabled"
+          className={btnStyle}
           onClick={this.handleNext.bind(this)}
         >
           下一步

@@ -5,6 +5,9 @@ import './amount.scss';
 
 import parentsAvatar from '../../images/avatar/parents@2x.png';
 import childAvatar from '../../images/avatar/children@2x.png';
+import cls from 'classnames';
+
+import global from '../../global';
 
 export default class Amount extends Component {
   config = {
@@ -21,17 +24,35 @@ export default class Amount extends Component {
     };
   }
 
-  componentWillMount() {}
+  componentWillMount() {
+    this.info = global.get('applyInfo') || {};
+    this.user = global.get('user') || {};
+    const name = this.info.minorName;
+    const role = this.info.role;
+    const avatar = this.info.role == '父亲' ? parentsAvatar : childAvatar;
+    this.setState({name, role, avatar});
+  }
 
-  componentDidMount() {}
 
-  componentWillUnmount() {}
+  handleAmountChange(e) {
+    const amount = e.detail.value;
+    this.setState({amount});
+  }
 
-  componentDidShow() {}
-
-  componentDidHide() {}
 
   handleNext() {
+    const {amount} = this.state;
+    if (!amount) return;
+    Taro.showLoading({
+      title: '正在申请...',
+    });
+    this.info.credit_line = parseInt(amount);
+    const card = this.user.card_list[0];
+    this.info.mainId = card.main_id;
+    console.log(this.info);
+    global.post('applycard', this.info).then(res => {
+      Taro.hideLoading();
+    });
     Taro.navigateTo({
       url: '../status/status'
     });
@@ -42,6 +63,11 @@ export default class Amount extends Component {
 
     const nameText = states.name + '(' + states.role + ')';
     const labelText = '给' + states.role + '的消费上限';
+
+    const btnStyle = cls({
+      'next-btn': true,
+      'disabled': !states.amount,
+    })
 
     return (
       <View className="container">
@@ -58,7 +84,7 @@ export default class Amount extends Component {
                   placeholder="1-2000"
                   value={states.amount}
                   type="number"
-                  onChange={this.handleRoleChange}
+                  onChange={this.handleAmountChange.bind(this)}
                 />
               </View>
               <Text className="input-label right">元/月</Text>
@@ -70,7 +96,7 @@ export default class Amount extends Component {
           </View>
         </View>
         <View
-          className="next-btn disabled"
+          className={btnStyle}
           onClick={this.handleNext.bind(this)}
         >
           申请开通
