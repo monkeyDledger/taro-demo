@@ -7,10 +7,11 @@
 var User = require('../db/model/user');
 var Card = require('../db/model/card');
 var randomstring = require('randomstring');
+var mongoose = require('mongoose');
 module.exports = (req, res) => {
-  var mainUser = new User({
-    user_id : req.body.mainId
-  });
+  // var mainUser = new User({
+  //   _id : req.body.mainId
+  // });
 
   var minorUser = new User ({
     user_id :req.body.minorId,
@@ -26,7 +27,7 @@ module.exports = (req, res) => {
     }
     else {
       var main_Id,minor_Id;
-        User.find ({'user_id' : mainUser.user_id})
+        User.find ({'_id' : mongoose.Types.ObjectId(req.body.mainId)})
         .exec().then(function (result) {
           if(result.length < 1) {
             console.log("No Data!");

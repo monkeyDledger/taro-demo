@@ -9,8 +9,6 @@ var Card = require('../db/model/card');
 
 module.exports = (req, res) => {
 
-console.log("my req"+req.body.phone);
-
   var mainUser = new User({
     phone : req.body.phone
   });
