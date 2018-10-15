@@ -1,0 +1,17 @@
+.main {
+  margin: 20px auto;
+
+  .tips {
+    width: 100%;
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+    color: #666666;
+    letter-spacing: 0.6px;
+    text-align: center;
+
+    &.top {
+      margin-top: 23px;
+    }
+  }
+}
