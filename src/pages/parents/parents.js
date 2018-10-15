@@ -32,8 +32,8 @@ export default class ChildIndex extends Component {
   }
 
   render() {
-    const { ...states } = this.state;
-    const familyList = states.familyList.map((item, index) => {
+    const { familyList } = this.state;
+    const familylist = familyList.map((item, index) => {
       return (
         <View className="family-item" key={index}>
           <Image className="family-avatar" src={item.avatar} />
@@ -58,7 +58,7 @@ export default class ChildIndex extends Component {
             </View>
             <View className="parents-card family">
               <Text className="parents-card-text card-label">家庭成员</Text>
-              {familyList}
+              {familylist}
             </View>
           </View>
         </View>

@@ -10,6 +10,8 @@ import peaceIcon from '../../images/icons/peace@2x.png';
 import sadIcon from '../../images/icons/sad@2x.png';
 import avatar from '../../images/avatar/parents@2x.png';
 import bubbleImg from '../../images/bubble@2x.png';
+
+import global from '../../global';
 export default class Transaction extends Component {
   config = {
     navigationBarTitleText: '交易详情'
@@ -53,23 +55,27 @@ export default class Transaction extends Component {
   }
 
   componentWillMount() {
-    const params = this.$router.params;
+    const transaction = global.get('transaction') || {};
     // const expression = params.expression;
-    const expression = 1;
+    const expression = transaction.expression || 0;
+    this.setState({
+      roleName: transaction.roleName,
+      role: transaction.role,
+    })
     if (expression) {
       const commentIcon =
         expression === 1 ? smileIcon : expression === 2 ? peaceIcon : sadIcon;
       this.setState({ commentIcon, expression });
-    } else {
     }
   }
 
   render() {
-    const { ...states } = this.state;
+    const { roleName, role, userName, commentIcon, bills, expression } = this.state;
     const expressionTitle =
-      '对' + states.role + states.roleName + '的消费进行评价';
+      '对' + role + roleName + '的消费进行评价';
+      console.log('expression', expression, global.get('transaction').expression)
 
-    const expressionEle = !states.expression ? (
+    const expressionEle = expression === 0 ? (
       <View className="expression-container">
         <Text className="expression-title">{expressionTitle}</Text>
         <View className="expression-icons">
@@ -82,9 +88,9 @@ export default class Transaction extends Component {
     ) : (
       <View className="comment-container">
         <Image className="comment-avatar" src={avatar} />
-        <Text className="comment-name">{states.userName}</Text>
+        <Text className="comment-name">{userName}</Text>
         <View className="comment-detail">
-          <Image className="comment-icon" src={states.commentIcon} />
+          <Image className="comment-icon" src={commentIcon} />
           <Text className="comment-text">来自您的评价</Text>
         </View>
       </View>
@@ -96,7 +102,7 @@ export default class Transaction extends Component {
         <View className="transaction-main">
           <Image className="top-img" src={topImg} />
           {expressionEle}
-          <Bill data={states.bills} />
+          <Bill data={bills} />
         </View>
       </View>
     );

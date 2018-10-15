@@ -12,13 +12,13 @@ import uncheckedIcon from '../../images/form/uncheck@2x.png'
 export default class Game extends Component {
 
   render () {
-    const {...data} = this.props;
-    const rightIcon = data.checked ? checkedIcon : uncheckedIcon;
+    const {checked, onItemClick, logo, name} = this.props;
+    const rightIcon = checked ? checkedIcon : uncheckedIcon;
 
     return (
-      <View className="game" onClick={data.onItemClick}>
-        <Image className="game-logo" src={data.logo}></Image>
-        <Text className="game-name">{data.name}</Text>
+      <View className="game" onClick={onItemClick}>
+        <Image className="game-logo" src={logo}></Image>
+        <Text className="game-name">{name}</Text>
         <Image className="game-checkbox" src={rightIcon} />
       </View>
     );

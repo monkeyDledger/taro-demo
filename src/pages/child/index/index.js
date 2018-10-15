@@ -5,6 +5,7 @@ import Card from '../../../components/card/card';
 
 import './index.scss';
 import addIcon from '../../../images/icons/add_card@2x.png';
+import global from '../../../global';
 export default class ChildIndex extends Component {
   config = {
     navigationBarTitleText: '云家付'
@@ -34,6 +35,14 @@ export default class ChildIndex extends Component {
     };
   }
 
+  componentDidMount() {
+    const user = global.get('user') || {};
+    const list = user.data.infolist;
+    if (list && list.length > 0) {
+      this.setState({list});
+    }
+  }
+
   onItemClick(item) {
     const param = 'role=' + item.role + '&cardId=' + item.id + '&name=' + item.name+ '&isMain';
     Taro.navigateTo({
@@ -41,10 +50,16 @@ export default class ChildIndex extends Component {
     })
   }
 
+  onChildDetailClick() {
+    Taro.navigateTo({
+      url: '../plan/plan'
+    });
+  }
+
   render() {
-    const { ...states } = this.state;
+    const { list, quota, amount } = this.state;
     const route = this.$router;
-    const cards = states.list.map(item => {
+    const cards = list.map(item => {
       return (
         <Card
           key={item.id}
@@ -56,8 +71,8 @@ export default class ChildIndex extends Component {
         />
       );
     });
-    const quotaText = '10月剩余预算：' + states.quota + '元';
-    const percent = Math.round((states.quota / states.amount) * 100);
+    const quotaText = '10月剩余预算：' + quota + '元';
+    const percent = Math.round((quota / amount) * 100);
     return (
       <View className="container">
         <Header text={this.config.navigationBarTitleText} route={route} />
@@ -65,10 +80,10 @@ export default class ChildIndex extends Component {
           <View className="child-header">
             <View className="header-left">
               <Text className="header-left-title">月度预算</Text>
-              <Text className="header-left-amount">{states.amount}</Text>
+              <Text className="header-left-amount">{amount}</Text>
               <Text className="header-left-quota">{quotaText}</Text>
             </View>
-            <View className="header-btn">详情</View>
+            <View className="header-btn" onClick={this.onChildDetailClick.bind(this)}>详情</View>
             <View className="header-progress">
               <Text className="header-progress-text">低于20%时提醒</Text>
               <Progress percent={percent} active />

@@ -2,7 +2,8 @@ import Taro from '@tarojs/taro';
 
 const globalData = {}
 
-const baseUrl = 'http://172.20.10.6:3100/api/';
+const baseUrl = 'http://172.18.3.32:3100/api/';
+// const baseUrl = 'http://172.21.180.7:3100/api';
 
 const set = (key, val) => {
   if (val) {

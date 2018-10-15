@@ -14,21 +14,21 @@ import salleryIcon from '../../images/icons/icon_salary@2x.png';
  */
 export default class TimeLine extends Component {
   render() {
-    const { ...props } = this.props;
+    const { comment, type, onItemClick, merchant, money, time } = this.props;
     let expression = null;
     let commentIcon = null;
     const leftIcon =
-      props.type == 'food'
+      type == 'food'
         ? breakIcon
-        : props.type == 'coffee'
+        : type == 'coffee'
           ? coffeeIcon
           : salleryIcon;
 
-    if (props.comment) {
+    if (comment) {
       commentIcon =
-        props.comment === 1
+        comment === 1
           ? smileIcon
-          : props.comment === 2
+          : comment === 2
             ? peaceIcon
             : sadIcon;
       console.log(commentIcon);
@@ -36,13 +36,13 @@ export default class TimeLine extends Component {
     }
 
     return (
-      <View className="timeline-item">
+      <View className="timeline-item" onClick={onItemClick}>
         <Image className="timeline-left-icon" src={leftIcon} />
-        <Text className="timeline-content">{props.merchant}</Text>
+        <Text className="timeline-content">{merchant}</Text>
         <View className="timeline-right">
-          <Text className="timeline-right-text">{props.money}</Text>
+          <Text className="timeline-right-text">{money}</Text>
           {expression}
-          <Text className="timeline-right-date">{props.time}</Text>
+          <Text className="timeline-right-date">{time}</Text>
         </View>
       </View>
     );

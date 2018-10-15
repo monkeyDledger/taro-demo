@@ -11,27 +11,27 @@ import childAvatar from '../../images/avatar/children@2x.png';
  */
 export default class Card extends Component {
   render() {
-    const { ...data } = this.props;
-    const title = data.isMain ? '为' + data.role + '开通的' : '来自' + data.role;
-    const avatar = data.role == '父亲' ? parentsAvatar : childAvatar;
+    const { isMain, role, applying, total, quota, onCardClick, name } = this.props;
+    const title = isMain ? '为' + role + '开通的' : '来自' + role;
+    const avatar = role == '父亲' ? parentsAvatar : childAvatar;
 
-    const right = data.applying ? (
+    const right = applying ? (
       <View className="card-applying">
         <Text className="card-applying-text">申请中</Text>
       </View>
     ) : (
       <View className="card-amount">
-        <Text className="card-amount-total">{'￥' + data.total}</Text>
-        <Text className="card-amount-quota">{'剩余￥' + data.quota}</Text>
+        <Text className="card-amount-total">{'￥' + total}</Text>
+        <Text className="card-amount-quota">{'剩余￥' + quota}</Text>
       </View>
     );
 
     return (
-      <View className="list-card" onClick={data.onCardClick}>
+      <View className="list-card" onClick={onCardClick}>
         <Text className="card-title">{title}</Text>
         <View className="card-detail">
           <Image className="card-avatar" src={avatar} />
-          <Text className="card-name">{data.name}</Text>
+          <Text className="card-name">{name}</Text>
           {right}
         </View>
       </View>

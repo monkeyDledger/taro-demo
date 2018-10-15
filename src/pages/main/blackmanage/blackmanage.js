@@ -74,15 +74,7 @@ export default class BlackManage extends Component {
   render() {
     const { gameList } = this.state;
     const games = gameList.map((item, index) => {
-      return (
-        <GameItem
-          key={index}
-          name={item.merchant}
-          logo={item.logo}
-          checked={item.checked}
-          onItemClick={this.onItemClick.bind(this, index)}
-        />
-      );
+      return <GameItem key={index} name={item.merchant} logo={item.logo} checked={item.checked} onItemClick={this.onItemClick.bind(this, index)} />;
     });
     return (
       <View className="container">

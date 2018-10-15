@@ -43,13 +43,13 @@ export default class Login extends Component {
         const data = res.data;
         if (data) {
           if (data.role == '主卡人') {
-            if (data.infolist) {
+            if (data.infolist && data.infolist.length > 0) {
               Taro.navigateTo({
-                url: 'pages/main/list/list',
+                url: '/pages/main/list/list',
               })
             } else {
               Taro.navigateTo({
-                url: 'pages/home/home'
+                url: '/pages/home/home'
               })
             }
           }

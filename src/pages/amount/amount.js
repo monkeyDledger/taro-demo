@@ -59,20 +59,20 @@ export default class Amount extends Component {
   }
 
   render() {
-    const { ...states } = this.state;
+    const { name, role, amount, avatar } = this.state;
 
-    const nameText = states.name + '(' + states.role + ')';
-    const labelText = '给' + states.role + '的消费上限';
+    const nameText = name + '(' + role + ')';
+    const labelText = '给' + role + '的消费上限';
 
     const btnStyle = cls({
       'next-btn': true,
-      'disabled': !states.amount,
+      'disabled': !amount,
     })
 
     return (
       <View className="container">
         <Header text={this.config.navigationBarTitleText} />
-        <Image className="avatar" src={states.avatar} />
+        <Image className="avatar" src={avatar} />
         <Text className="role-name">{nameText}</Text>
         <View className="amount-main">
           <Text className="label">{labelText}</Text>
@@ -82,7 +82,7 @@ export default class Amount extends Component {
               <View className="input-content">
                 <Input
                   placeholder="1-2000"
-                  value={states.amount}
+                  value={amount}
                   type="number"
                   onChange={this.handleAmountChange.bind(this)}
                 />

@@ -122,29 +122,37 @@ export default class Detail extends Component {
 
   onTagClick() {}
 
-  onTimeItemClick() {
-
+  onTimeItemClick(item) {
+    console.log('click item');
+    const transaction = {
+      expression: item.comment,
+      roleName: this.state.name,
+      role: this.state.role,
+    }
+    global.set('transaction', transaction);
+    Taro.navigateTo({
+      url: '../../transaction/transaction',
+    })
   }
 
   render() {
-    const { ...state } = this.state;
-    const user = state.name + '(' + state.role + ')';
-    const amount = state.quota + '/' + state.total + '元';
-    const percent = Math.round((state.quota / state.total) * 100);
+    const { role, name, quota, total, curTab, accountList, title } = this.state;
+    const user = name + '(' + role + ')';
+    const amount = quota + '/' + total + '元';
+    const percent = Math.round((quota / total) * 100);
 
     const historyTabStyle = cls({
       'detail-tab-text': true,
-      selected: state.curTab === 'history'
+      selected: curTab === 'history'
     });
     const settingTabStyle = cls({
       'detail-tab-text': true,
       right: true,
-      selected: state.curTab === 'setting'
+      selected: curTab === 'setting'
     });
     const activeColor = '#ED171F';
 
-    let timeline = null;
-    timeline = state.accountList && state.accountList.map(item => {
+    const timeline = accountList && accountList.map(item => {
       return (
         <Timeline
           key={item.id}
@@ -153,14 +161,24 @@ export default class Detail extends Component {
           money={item.money}
           comment={item.comment}
           type={item.type}
-          onItemClick={this.onTimeItemClick.bind(this)}
+          onItemClick={this.onTimeItemClick.bind(this, item)}
         />
       );
     });
 
-    let tabContent = null;
-    tabContent =
-      state.curTab === 'history' ? (
+    const isBlackShow = (role == '儿子' || role == '女儿');
+    const black = isBlackShow ? (
+          <View
+            className="setting-item"
+            onClick={this.onBlackBtnClick.bind(this)}
+          >
+            <Image className="setting-icon" src={settingBlack} />
+            <Text className="setting-text">黑名单设置</Text>
+          </View>
+    ) : null;
+
+    const tabContent =
+      curTab === 'history' ? (
         <View className="history-container">
           <View className="history-header" onClick={this.onTagClick}>
             <Text className="history-header-text">评价标签</Text>
@@ -170,13 +188,14 @@ export default class Detail extends Component {
         </View>
       ) : (
         <View className="setting-container">
-          <View
+          {black}
+          {/* <View
             className="setting-item"
             onClick={this.onBlackBtnClick.bind(this)}
           >
             <Image className="setting-icon" src={settingBlack} />
             <Text className="setting-text">黑名单设置</Text>
-          </View>
+          </View> */}
           <View
             className="setting-item"
             onClick={this.onLimitBtnClick.bind(this)}
@@ -196,7 +215,7 @@ export default class Detail extends Component {
 
     return (
       <View className="container">
-        <Header text={state.title} />
+        <Header text={title} />
 
         <View className="detail-main">
           <View className="card-container">
